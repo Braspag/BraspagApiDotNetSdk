@@ -248,3 +248,6 @@
 /Debug/
 /Release/
 /BraspagApiDotNetSdk/bin/
+*.ncrunchproject
+*.cache
+*.ncrunchsolution

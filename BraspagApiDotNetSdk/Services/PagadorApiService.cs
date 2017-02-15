@@ -15,7 +15,7 @@ namespace BraspagApiDotNetSdk.Services
 
         protected IDeserializer JsonDeserializer { get; set; }
 
-        public PagadorApiService() : this(ConfigurationManager.AppSettings["apiRootUrl"]){}
+        public PagadorApiService() : this(ConfigurationManager.AppSettings["apiRootUrl"]) { }
 
         public PagadorApiService(string url)
         {
@@ -36,8 +36,12 @@ namespace BraspagApiDotNetSdk.Services
 
             if (response.StatusCode == HttpStatusCode.Created)
                 saleResponse = JsonConvert.DeserializeObject<Sale>(response.Content);
-            else if(response.StatusCode == HttpStatusCode.BadRequest)
+            else if (response.StatusCode == HttpStatusCode.BadRequest)
                 saleResponse = new Sale { ErrorDataCollection = JsonDeserializer.Deserialize<List<Error>>(response) };
+            else if (response.StatusCode == 0)
+            {
+                saleResponse = HandleErrorException(response);
+            }
             else
                 saleResponse = new Sale();
 
@@ -63,7 +67,7 @@ namespace BraspagApiDotNetSdk.Services
 
             CaptureResponse captureResponse = null;
 
-            if (response.StatusCode == HttpStatusCode.Created)
+            if (response.StatusCode == HttpStatusCode.OK)
                 captureResponse = JsonConvert.DeserializeObject<CaptureResponse>(response.Content);
             else if (response.StatusCode == HttpStatusCode.BadRequest)
                 captureResponse = new CaptureResponse { ErrorDataCollection = JsonDeserializer.Deserialize<List<Error>>(response) };
@@ -98,7 +102,7 @@ namespace BraspagApiDotNetSdk.Services
                 voidResponse = new VoidResponse { ErrorDataCollection = JsonDeserializer.Deserialize<List<Error>>(response) };
             else
                 voidResponse = new VoidResponse();
-            
+
             voidResponse.HttpStatus = response.StatusCode;
 
             return voidResponse;
@@ -115,7 +119,7 @@ namespace BraspagApiDotNetSdk.Services
 
             Sale saleResponse = null;
 
-            if (response.StatusCode == HttpStatusCode.Created)
+            if (response.StatusCode == HttpStatusCode.OK)
                 saleResponse = JsonConvert.DeserializeObject<Sale>(response.Content);
             else if (response.StatusCode == HttpStatusCode.BadRequest)
                 saleResponse = new Sale { ErrorDataCollection = JsonDeserializer.Deserialize<List<Error>>(response) };
@@ -132,6 +136,21 @@ namespace BraspagApiDotNetSdk.Services
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("MerchantId", auth.MerchantId.ToString());
             request.AddHeader("MerchantKey", auth.MerchantKey);
+        }
+
+        private static Sale HandleErrorException(IRestResponse<Sale> response)
+        {
+            return new Sale
+            {
+                ErrorDataCollection = new List<Error>
+                {
+                    new Error
+                    {
+                        Code = -1,
+                        Message = string.Format("ErrorMessage: {0} | ErrorException: {1}", response.ErrorMessage, response.ErrorException)
+                    }
+                }
+            };
         }
     }
 }
