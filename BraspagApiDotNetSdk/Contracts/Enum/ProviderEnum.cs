@@ -16,6 +16,15 @@
         SafetyPay,
         RedeSiTef,
         CieloSiTef,
-        SantanderSiTef
+        SantanderSiTef,
+        Rede,
+        Policard,
+        Banorte,
+        Sub1,
+        BancoDoBrasil2,
+        Cielo30,
+        Bradesco2,
+        Transbank,
+        RiachueloSiTef
 	}
 }
