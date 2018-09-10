@@ -1,10 +1,9 @@
 ﻿using BraspagApiDotNetSdk.Contracts.Enum;
+using BraspagApiDotNetSdk.Services;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
-
-using BraspagApiDotNetSdk.Services;
-
-using Newtonsoft.Json;
 
 namespace BraspagApiDotNetSdk.Contracts
 {
@@ -32,8 +31,9 @@ namespace BraspagApiDotNetSdk.Contracts
 		public string Currency { get; set; }
 
 		public string Country { get; set; }
-
-		public ProviderEnum Provider { get; set; }
+        
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ProviderEnum Provider { get; set; }
 
 		public PaymentCredentials Credentials { get; set; }
 
