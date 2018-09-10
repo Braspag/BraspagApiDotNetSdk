@@ -1,30 +1,29 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using BraspagApiDotNetSdk.Contracts;
+﻿using BraspagApiDotNetSdk.Contracts;
 using BraspagApiDotNetSdk.Services;
 using BraspagApiDotNetSdk.Tests.Helpers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using RestSharp;
-using RestSharp.Serializers;
+using System;
+using System.Linq;
+using System.Net;
 
 namespace BraspagApiDotNetSdk.Tests
 {
     [TestClass]
-    public class ZeroAuthTests
+    public class VerifyCardTests
     {
         private Mock<IRestClient> _mockRestClient;
 
-        private IZeroAuthService _zeroAuthService;
+        private IVerifyCardService _verifyCardService;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _mockRestClient = new Mock<IRestClient>();
 
-            _zeroAuthService = new ZeroAuthService
+            _verifyCardService = new VerifyCardService
             {
                 RestClient = _mockRestClient.Object
             };
@@ -33,16 +32,16 @@ namespace BraspagApiDotNetSdk.Tests
         [TestMethod]
         public void VerifyCard_WhenVerifyIsSuccessAndCardIsOk_ShouldFillResponseCorrectly()
         {
-            var cardRequest = ZeroAuthHelper.ValidCardRequest();
+            var verifyCardRequest = VerifyCardHelper.ValidVerifyCardRequest();
             
             _mockRestClient.Setup(m => m.Execute(It.IsAny<IRestRequest>())).Returns(new RestResponse<string>
             {
                 StatusCode = HttpStatusCode.Created,
-                Content = ZeroAuthHelper.ValidZeroAuthResponseWithTrueResponse(),
-                Data = ZeroAuthHelper.ValidZeroAuthResponseWithTrueResponse()
+                Content = VerifyCardHelper.ValidVerifyCardResponseWithTrueResponse(),
+                Data = VerifyCardHelper.ValidVerifyCardResponseWithTrueResponse()
             });
 
-            var response = _zeroAuthService.VerifyCard(new MerchantAuthentication(),  cardRequest);
+            var response = _verifyCardService.VerifyCard(new MerchantAuthentication(), verifyCardRequest);
 
             _mockRestClient.Verify(m => m.Execute(It.IsAny<RestRequest>()), Times.Once);
 
@@ -53,22 +52,22 @@ namespace BraspagApiDotNetSdk.Tests
 
             response.Should().NotBeNull();
             response.ErrorDataCollection.Should().BeNull();
-            response.IsValid.Should().BeTrue();
+            response.Status.Should().Equals(1);
         }
 
         [TestMethod]
         public void VerifyCard_WhenVerifyIsSuccessAndCardIsKo_ShouldFillResponseCorrectly()
         {
-            var cardRequest = ZeroAuthHelper.ValidCardRequest();
+            var verifyCardRequest = VerifyCardHelper.InvalidVerifyCardRequest();
 
             _mockRestClient.Setup(m => m.Execute(It.IsAny<IRestRequest>())).Returns(new RestResponse<string>
             {
                 StatusCode = HttpStatusCode.Created,
-                Content = ZeroAuthHelper.ValidZeroAuthResponseWithFalseResponse(),
-                Data = ZeroAuthHelper.ValidZeroAuthResponseWithFalseResponse()
+                Content = VerifyCardHelper.ValidVerifyCardResponseWithFalseResponse(),
+                Data = VerifyCardHelper.ValidVerifyCardResponseWithFalseResponse()
             });
 
-            var response = _zeroAuthService.VerifyCard(new MerchantAuthentication(), cardRequest);
+            var response = _verifyCardService.VerifyCard(new MerchantAuthentication(), verifyCardRequest);
 
             _mockRestClient.Verify(m => m.Execute(It.IsAny<RestRequest>()), Times.Once);
 
@@ -79,47 +78,47 @@ namespace BraspagApiDotNetSdk.Tests
 
             response.Should().NotBeNull();
             response.ErrorDataCollection.Should().BeNull();
-            response.IsValid.Should().BeFalse();
+            response.Status.Should().Equals(0);
         }
         
         [TestMethod]
         public void VerifyCard_WhenVerifyIsFailedAndHasOneError_ShouldFillResponseCorrectly()
         {
-            var cardRequest = ZeroAuthHelper.ValidCardRequest();
+            var verifyCardRequest = VerifyCardHelper.ValidVerifyCardRequest();
 
             _mockRestClient.Setup(m => m.Execute(It.IsAny<IRestRequest>())).Returns(new RestResponse<string>
             {
                 StatusCode = HttpStatusCode.BadRequest,
-                Content = ZeroAuthHelper.InvalidZeroAuthResponseOneError(),
-                Data = ZeroAuthHelper.InvalidZeroAuthResponseOneError()
+                Content = VerifyCardHelper.InvalidVerifyCardResponseOneError(),
+                Data = VerifyCardHelper.InvalidVerifyCardResponseOneError()
             });
 
-            var response = _zeroAuthService.VerifyCard(new MerchantAuthentication(), cardRequest);
+            var response = _verifyCardService.VerifyCard(new MerchantAuthentication(), verifyCardRequest);
 
             response.Should().NotBeNull();
             response.ErrorDataCollection.Should().NotBeNull();
             response.ErrorDataCollection.Should().HaveCount(1);
-            response.ErrorDataCollection.Should().ContainSingle(o => o.Code == 322 && o.Message == "Zero Dollar Auth is not enabled");
+            response.ErrorDataCollection.Should().ContainSingle(o => o.Code == 322 && o.Message == "Verify card is not enabled");
         }
 
         [TestMethod]
         public void VerifyCard_WhenVerifyIsFailedAndHasTwoError_ShouldFillResponseCorrectly()
         {
-            var cardRequest = ZeroAuthHelper.ValidCardRequest();
+            var verifyCardRequest = VerifyCardHelper.ValidVerifyCardRequest();
 
             _mockRestClient.Setup(m => m.Execute(It.IsAny<IRestRequest>())).Returns(new RestResponse<string>
             {
                 StatusCode = HttpStatusCode.BadRequest,
-                Content = ZeroAuthHelper.InvalidZeroAuthResponseTwoErrors(),
-                Data = ZeroAuthHelper.InvalidZeroAuthResponseTwoErrors()
+                Content = VerifyCardHelper.InvalidVerifyCardResponseTwoErrors(),
+                Data = VerifyCardHelper.InvalidVerifyCardResponseTwoErrors()
             });
 
-            var response = _zeroAuthService.VerifyCard(new MerchantAuthentication(), cardRequest);
+            var response = _verifyCardService.VerifyCard(new MerchantAuthentication(), verifyCardRequest);
 
             response.Should().NotBeNull();
             response.ErrorDataCollection.Should().NotBeNull();
             response.ErrorDataCollection.Should().HaveCount(2);
-            response.ErrorDataCollection.Should().ContainSingle(o => o.Code == 322 && o.Message == "Zero Dollar Auth is not enabled");
+            response.ErrorDataCollection.Should().ContainSingle(o => o.Code == 322 && o.Message == "Verify card is not enabled");
             response.ErrorDataCollection.Should().ContainSingle(o => o.Code == 1 && o.Message == "Unexpected end of file");
         }
 
@@ -136,7 +135,7 @@ namespace BraspagApiDotNetSdk.Tests
 
             _mockRestClient.Setup(m => m.Execute(It.IsAny<IRestRequest>())).Returns(restResponse);
 
-            var response = _zeroAuthService.VerifyCard(MerchantAuthenticationHelper.CreateMerchantAuthentication(), ZeroAuthHelper.ValidCardRequest());
+            var response = _verifyCardService.VerifyCard(MerchantAuthenticationHelper.CreateMerchantAuthentication(), VerifyCardHelper.ValidVerifyCardRequest());
 
             response.Should().NotBeNull();
             Assert.AreEqual(response.HttpStatus, restResponse.StatusCode);

@@ -98,18 +98,19 @@
     <Compile Include="Contracts\RecurrentQuery.cs" />
     <Compile Include="Contracts\RecurrentTransaction.cs" />
     <Compile Include="Contracts\Sale.cs" />
+    <Compile Include="Contracts\VerifyCardRequest.cs" />
     <Compile Include="Contracts\VerifyCardResponse.cs" />
     <Compile Include="Contracts\VoidRequest.cs" />
     <Compile Include="Contracts\VoidResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IPagadorApiService.cs" />
     <Compile Include="Services\IPagadorRecurrentApiService.cs" />
-    <Compile Include="Services\IZeroAuthService.cs" />
+    <Compile Include="Services\IVerifyCardService.cs" />
     <Compile Include="Services\JsonCreationConverter.cs" />
     <Compile Include="Services\PagadorApiService.cs" />
     <Compile Include="Services\PagadorRecurrentApiService.cs" />
     <Compile Include="Services\PaymentConverter.cs" />
-    <Compile Include="Services\ZeroAuthService.cs" />
+    <Compile Include="Services\VerifyCardService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

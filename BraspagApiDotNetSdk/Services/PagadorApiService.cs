@@ -15,7 +15,9 @@ namespace BraspagApiDotNetSdk.Services
 
         protected IDeserializer JsonDeserializer { get; set; }
 
-        public PagadorApiService() : this(ConfigurationManager.AppSettings["apiRootUrl"]) { }
+        public PagadorApiService() : this(ConfigurationManager.AppSettings["apiRootUrl"])
+        {
+        }
 
         public PagadorApiService(string url)
         {
@@ -28,26 +30,16 @@ namespace BraspagApiDotNetSdk.Services
             var restRequest = new RestRequest(@"sales", Method.POST) { RequestFormat = DataFormat.Json };
             AddHeaders(restRequest, merchantAuthentication);
 
-            restRequest.AddBody(sale);
+            return PostSale(sale, restRequest);
+        }
 
-            var response = RestClient.Execute<Sale>(restRequest);
+        public Sale CreateSale(MerchantAuthentication merchantAuthentication, Sale sale, Dictionary<string, string> headers)
+        {
+            var restRequest = new RestRequest(@"sales", Method.POST) { RequestFormat = DataFormat.Json };
+            AddHeaders(restRequest, merchantAuthentication);
+            AddCustomHeaders(restRequest, headers ?? new Dictionary<string, string>());
 
-            Sale saleResponse = null;
-
-            if (response.StatusCode == HttpStatusCode.Created)
-                saleResponse = JsonConvert.DeserializeObject<Sale>(response.Content);
-            else if (response.StatusCode == HttpStatusCode.BadRequest)
-                saleResponse = new Sale { ErrorDataCollection = JsonDeserializer.Deserialize<List<Error>>(response) };
-            else if (response.StatusCode == 0)
-            {
-                saleResponse = HandleErrorException(response);
-            }
-            else
-                saleResponse = new Sale();
-
-            saleResponse.HttpStatus = response.StatusCode;
-
-            return saleResponse;
+            return PostSale(sale, restRequest);
         }
 
         public CaptureResponse Capture(Guid paymentId, MerchantAuthentication merchantAuthentication, CaptureRequest captureRequest)
@@ -93,7 +85,6 @@ namespace BraspagApiDotNetSdk.Services
 
             var response = RestClient.Execute<VoidResponse>(restRequest);
 
-
             VoidResponse voidResponse = null;
 
             if (response.StatusCode == HttpStatusCode.OK)
@@ -138,6 +129,14 @@ namespace BraspagApiDotNetSdk.Services
             request.AddHeader("MerchantKey", auth.MerchantKey);
         }
 
+        private static void AddCustomHeaders(IRestRequest request, Dictionary<string, string> customHeaders)
+        {
+            foreach (var header in customHeaders)
+            {
+                request.AddHeader(header.Key, header.Value);
+            }
+        }
+
         private static Sale HandleErrorException(IRestResponse<Sale> response)
         {
             return new Sale
@@ -151,6 +150,30 @@ namespace BraspagApiDotNetSdk.Services
                     }
                 }
             };
+        }
+
+        private Sale PostSale(Sale sale, RestRequest restRequest)
+        {
+            restRequest.AddBody(sale);
+
+            var response = RestClient.Execute<Sale>(restRequest);
+
+            Sale saleResponse = null;
+
+            if (response.StatusCode == HttpStatusCode.Created)
+                saleResponse = JsonConvert.DeserializeObject<Sale>(response.Content);
+            else if (response.StatusCode == HttpStatusCode.BadRequest)
+                saleResponse = new Sale { ErrorDataCollection = JsonDeserializer.Deserialize<List<Error>>(response) };
+            else if (response.StatusCode == 0)
+            {
+                saleResponse = HandleErrorException(response);
+            }
+            else
+                saleResponse = new Sale();
+
+            saleResponse.HttpStatus = response.StatusCode;
+
+            return saleResponse;
         }
     }
 }

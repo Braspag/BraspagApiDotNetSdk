@@ -26,5 +26,7 @@
 		public string Address { get; set; }
 
 		public string Identification { get; set; }
-	}
+
+        public bool IsRecurring { get; set; }
+    }
 }

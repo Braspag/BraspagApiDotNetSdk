@@ -1,42 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Net;
-using System.Text;
-using BraspagApiDotNetSdk.Contracts;
+﻿using BraspagApiDotNetSdk.Contracts;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Deserializers;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Net;
 
 namespace BraspagApiDotNetSdk.Services
 {
-    public class ZeroAuthService : IZeroAuthService
+    public class VerifyCardService : IVerifyCardService
     {
         public IRestClient RestClient { get; set; }
 
         protected IDeserializer JsonDeserializer { get; set; }
 
-        public ZeroAuthService() : this(ConfigurationManager.AppSettings["apiRootUrl"]) { }
+        public VerifyCardService() : this(ConfigurationManager.AppSettings["apiRootUrl"]) { }
 
-        public ZeroAuthService(string url)
+        public VerifyCardService(string url)
         {
             RestClient = new RestClient(new Uri(url));
             JsonDeserializer = new JsonDeserializer();
         }
 
-        public VerifyCardResponse VerifyCard(MerchantAuthentication merchantAuthentication, Card card)
+        public VerifyCardResponse VerifyCard(MerchantAuthentication merchantAuthentication, VerifyCardRequest verifyCardRequest)
         {
-            var restRequest = new RestRequest(@"ZeroAuth", Method.POST) { RequestFormat = DataFormat.Json };
+            var restRequest = new RestRequest(@"VerifyCard", Method.POST) { RequestFormat = DataFormat.Json };
             AddHeaders(restRequest, merchantAuthentication);
 
-            restRequest.AddBody(card);
+            restRequest.AddBody(verifyCardRequest);
             
             var response = RestClient.Execute(restRequest);
             
             VerifyCardResponse verifyCardResponse = null;
 
-            if (response.StatusCode == HttpStatusCode.Created)
+            if (response.StatusCode == HttpStatusCode.Created ||
+                response.StatusCode == HttpStatusCode.Accepted ||
+                response.StatusCode == HttpStatusCode.OK)
+
                 verifyCardResponse = JsonConvert.DeserializeObject<VerifyCardResponse>(response.Content);
             else if (response.StatusCode == HttpStatusCode.BadRequest)
                 verifyCardResponse = new VerifyCardResponse { ErrorDataCollection = JsonDeserializer.Deserialize<List<Error>>(response) };
@@ -52,11 +53,11 @@ namespace BraspagApiDotNetSdk.Services
             return verifyCardResponse;
         }
 
-        private static void AddHeaders(IRestRequest request, MerchantAuthentication auth)
+        private static void AddHeaders(IRestRequest request, MerchantAuthentication merchantAuthentication)
         {
             request.AddHeader("Content-Type", "application/json");
-            request.AddHeader("MerchantId", auth.MerchantId.ToString());
-            request.AddHeader("MerchantKey", auth.MerchantKey);
+            request.AddHeader("MerchantId", merchantAuthentication.MerchantId.ToString());
+            request.AddHeader("MerchantKey", merchantAuthentication.MerchantKey);
         }
 
         private static VerifyCardResponse HandleErrorException(IRestResponse response)

@@ -1,7 +1,7 @@
 ﻿namespace BraspagApiDotNetSdk.Contracts.Enum
 {
 	public enum ProviderEnum
-	{	   
+	{
         Cielo,
         Redecard,
         Simulado,
@@ -14,17 +14,23 @@
         Santander,
         Hsbc,
         SafetyPay,
-        RedeSiTef,
         CieloSiTef,
+        RedeSiTef,
         SantanderSiTef,
         Rede,
-        Policard,
         Banorte,
         Sub1,
         BancoDoBrasil2,
         Cielo30,
         Bradesco2,
         Transbank,
-        RiachueloSiTef
-	}
+        RiachueloSiTef,
+        DmCard,
+        Citibank2,
+        ItauShopline,
+        Banese,
+        GlobalPayments,
+        FirstData,
+        Getnet
+    }
 }

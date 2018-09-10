@@ -82,9 +82,9 @@
     <Compile Include="Helpers\MerchantAuthenticationHelper.cs" />
     <Compile Include="Helpers\SaleHelper.cs" />
     <Compile Include="Helpers\VoidTransactionHelper.cs" />
-    <Compile Include="Helpers\ZeroAuthHelper.cs" />
+    <Compile Include="Helpers\VerifyCardHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ZeroAuthTests.cs" />
+    <Compile Include="VerifyCardTests.cs" />
     <Compile Include="VoidTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0"?>
 <package>
-	<metadata>
-		<id>Braspag.ApiDotNetSdk</id>
-		<version>2.9.8</version>
-		<authors>Braspag</authors>
-		<owners>Braspag</owners>
-		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>Implementação do Sdk Api Pagador</description>
-		<releaseNotes>
-      - Status do AVS nullable
+  <metadata>
+    <id>Braspag.ApiDotNetSdk</id>
+    <version>2.9.18</version>
+    <authors>Braspag</authors>
+    <owners>Braspag</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Implementação do Sdk Api Pagador</description>
+    <releaseNotes>
+      - Refatorando a integração com o VerifyCard do Pagador
     </releaseNotes>
-		<copyright>Braspag Copyright 2015</copyright>
-	</metadata>
+    <copyright>Braspag Copyright 2015</copyright>
+  </metadata>
 </package>

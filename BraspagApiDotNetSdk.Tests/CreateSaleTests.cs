@@ -57,6 +57,79 @@ namespace BraspagApiDotNetSdk.Tests
         }
 
         [TestMethod]
+        public void CreateSale_WhenRequestContainsCustomHeaders_ShouldSendToApiServiceWithCorrecltyHeaders()
+        {
+            var validCreditCardSaleResponse = ValidCreateSaleResponse(CardTransactionHelper.CreateCreditCardPaymentResponse());
+
+            _mockRestClient.Setup(m => m.Execute<Sale>(It.IsAny<IRestRequest>())).Returns(new RestResponse<Sale>()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new JsonSerializer().Serialize(validCreditCardSaleResponse),
+                Data = validCreditCardSaleResponse
+            });
+
+            _service.CreateSale(MerchantAuthenticationHelper.CreateMerchantAuthentication(),
+                SaleHelper.CreateOrder(CardTransactionHelper.CreateCreditCardPaymentRequest()),
+                new Dictionary<string, string>
+                {
+                    { "CustomHeader1", "HeaderValid1" },
+                    { "CustomHeader2", "HeaderValid2" },
+                    { "CustomHeader3", "HeaderValid3" }
+                });
+
+            _mockRestClient.Verify(m => m.Execute<Sale>(It.IsAny<RestRequest>()), Times.Once);
+
+            _mockRestClient.Verify(m => m.Execute<Sale>(It.Is<RestRequest>(request => request.Method == Method.POST)), Times.Once);
+
+            _mockRestClient.Verify(m => m.Execute<Sale>(It.Is<RestRequest>(request => request.Resource == @"sales")), Times.Once);
+
+            _mockRestClient.Verify
+                (m => m.Execute<Sale>(
+                    It.Is<RestRequest>(
+                        request => request.Parameters[3].Name == "CustomHeader1" &&
+                                   request.Parameters[3].Value == "HeaderValid1" &&
+                                   request.Parameters[4].Name == "CustomHeader2" &&
+                                   request.Parameters[4].Value == "HeaderValid2" &&
+                                   request.Parameters[5].Name == "CustomHeader3" &&
+                                   request.Parameters[5].Value == "HeaderValid3")
+                 ), Times.Once);
+        }
+
+        [TestMethod]
+        public void CreateSale_WhenCustomHeaderIsNull_ShouldSendToApiServiceWithCorrecltyHeaders()
+        {
+            var validCreditCardSaleResponse = ValidCreateSaleResponse(CardTransactionHelper.CreateCreditCardPaymentResponse());
+
+            _mockRestClient.Setup(m => m.Execute<Sale>(It.IsAny<IRestRequest>())).Returns(new RestResponse<Sale>()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new JsonSerializer().Serialize(validCreditCardSaleResponse),
+                Data = validCreditCardSaleResponse
+            });
+
+            var merchantAuthentication = MerchantAuthenticationHelper.CreateMerchantAuthentication();
+
+            _service.CreateSale(merchantAuthentication,
+                SaleHelper.CreateOrder(CardTransactionHelper.CreateCreditCardPaymentRequest()),
+                null);
+
+            _mockRestClient.Verify(m => m.Execute<Sale>(It.IsAny<RestRequest>()), Times.Once);
+
+            _mockRestClient.Verify(m => m.Execute<Sale>(It.Is<RestRequest>(request => request.Method == Method.POST)), Times.Once);
+
+            _mockRestClient.Verify(m => m.Execute<Sale>(It.Is<RestRequest>(request => request.Resource == @"sales")), Times.Once);
+
+            _mockRestClient.Verify
+                (m => m.Execute<Sale>(
+                    It.Is<RestRequest>(
+                        request => request.Parameters[0].Name == "Content-Type" &&
+                                   request.Parameters[0].Value == "application/json" &&
+                                   request.Parameters[1].Name == "MerchantId" &&
+                                   request.Parameters[2].Name == "MerchantKey")
+                 ), Times.Once);
+        }
+
+        [TestMethod]
         public void CreateSale_Send_CreditCardTransaction_Return_Valid_Reponse()
         {
             var validCreditCardSaleResponse = ValidCreateSaleResponse(CardTransactionHelper.CreateCreditCardPaymentResponse());
@@ -302,6 +375,7 @@ namespace BraspagApiDotNetSdk.Tests
             response.ErrorDataCollection[0].Code.Should().Be(-1);
             response.ErrorDataCollection[0].Message.Should().Be("ErrorMessage: Undefined Error | ErrorException: System.Exception: Exceção de teste");
         }
+
         private static Sale ValidCreateSaleResponse(Payment payment)
         {
             return new Sale
