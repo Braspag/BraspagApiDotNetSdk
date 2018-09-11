@@ -27,7 +27,7 @@ namespace BraspagApiDotNetSdk.Services
 
         public Sale CreateSale(MerchantAuthentication merchantAuthentication, Sale sale)
         {
-            var restRequest = new RestRequest(@"sales", Method.POST) { RequestFormat = DataFormat.Json };
+            var restRequest = new RestRequest(@"sales", Method.POST) { RequestFormat = DataFormat.Json, JsonSerializer = NewtonsoftJsonSerializer.Default };
             AddHeaders(restRequest, merchantAuthentication);
 
             return PostSale(sale, restRequest);
@@ -35,7 +35,7 @@ namespace BraspagApiDotNetSdk.Services
 
         public Sale CreateSale(MerchantAuthentication merchantAuthentication, Sale sale, Dictionary<string, string> headers)
         {
-            var restRequest = new RestRequest(@"sales", Method.POST) { RequestFormat = DataFormat.Json };
+            var restRequest = new RestRequest(@"sales", Method.POST) { RequestFormat = DataFormat.Json, JsonSerializer = NewtonsoftJsonSerializer.Default };
             AddHeaders(restRequest, merchantAuthentication);
             AddCustomHeaders(restRequest, headers ?? new Dictionary<string, string>());
 
@@ -44,7 +44,7 @@ namespace BraspagApiDotNetSdk.Services
 
         public CaptureResponse Capture(Guid paymentId, MerchantAuthentication merchantAuthentication, CaptureRequest captureRequest)
         {
-            var restRequest = new RestRequest(@"sales/{paymentId}/capture", Method.PUT) { RequestFormat = DataFormat.Json };
+            var restRequest = new RestRequest(@"sales/{paymentId}/capture", Method.PUT) { RequestFormat = DataFormat.Json, JsonSerializer = NewtonsoftJsonSerializer.Default };
             AddHeaders(restRequest, merchantAuthentication);
 
             restRequest.AddUrlSegment("paymentId", paymentId.ToString());
@@ -73,7 +73,7 @@ namespace BraspagApiDotNetSdk.Services
 
         public VoidResponse Void(Guid paymentId, MerchantAuthentication merchantAuthentication, VoidRequest voidRequest)
         {
-            var restRequest = new RestRequest(@"sales/{paymentId}/void", Method.PUT) { RequestFormat = DataFormat.Json };
+            var restRequest = new RestRequest(@"sales/{paymentId}/void", Method.PUT) { RequestFormat = DataFormat.Json, JsonSerializer = NewtonsoftJsonSerializer.Default };
             AddHeaders(restRequest, merchantAuthentication);
 
             restRequest.AddUrlSegment("paymentId", paymentId.ToString());
@@ -101,7 +101,7 @@ namespace BraspagApiDotNetSdk.Services
 
         public Sale Get(Guid paymentId, MerchantAuthentication merchantAuthentication)
         {
-            var restRequest = new RestRequest(@"sales/{paymentId}", Method.GET) { RequestFormat = DataFormat.Json };
+            var restRequest = new RestRequest(@"sales/{paymentId}", Method.GET) { RequestFormat = DataFormat.Json, JsonSerializer = NewtonsoftJsonSerializer.Default };
             AddHeaders(restRequest, merchantAuthentication);
 
             restRequest.AddUrlSegment("paymentId", paymentId.ToString());

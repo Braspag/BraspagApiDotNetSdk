@@ -107,6 +107,7 @@
     <Compile Include="Services\IPagadorRecurrentApiService.cs" />
     <Compile Include="Services\IVerifyCardService.cs" />
     <Compile Include="Services\JsonCreationConverter.cs" />
+    <Compile Include="Services\NewtonsoftJsonSerializer.cs" />
     <Compile Include="Services\PagadorApiService.cs" />
     <Compile Include="Services\PagadorRecurrentApiService.cs" />
     <Compile Include="Services\PaymentConverter.cs" />

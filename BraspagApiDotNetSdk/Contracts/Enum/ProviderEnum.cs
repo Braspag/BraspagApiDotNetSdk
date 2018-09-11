@@ -1,7 +1,7 @@
 ﻿namespace BraspagApiDotNetSdk.Contracts.Enum
 {
 	public enum ProviderEnum
-	{
+    {
         Cielo,
         Redecard,
         Simulado,
@@ -30,7 +30,20 @@
         ItauShopline,
         Banese,
         GlobalPayments,
+        Santander2,
+        Caixa2,
         FirstData,
-        Getnet
+        Getnet,
+        ControlPay,
+        Itau2,
+        Stelo,
+        Credibanco,
+        BankOfAmerica,
+        Alelo,
+        Rede2,
+        Cbss,
+        Stone,
+        Carrefour,
+        Epay
     }
 }
