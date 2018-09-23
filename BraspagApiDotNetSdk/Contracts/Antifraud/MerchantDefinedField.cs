@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BraspagApiDotNetSdk.Contracts.Antifraud
+﻿namespace BraspagApiDotNetSdk.Contracts.Antifraud
 {
     public class MerchantDefinedField
     {

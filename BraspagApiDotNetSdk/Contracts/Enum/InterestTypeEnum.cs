@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BraspagApiDotNetSdk.Contracts.Enum
+﻿namespace BraspagApiDotNetSdk.Contracts.Enum
 {
     public enum InterestTypeEnum
     {
