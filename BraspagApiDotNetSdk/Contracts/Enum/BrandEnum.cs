@@ -18,6 +18,9 @@
         Cabal = 13,
         Credz = 14,
         CredSystem = 15,
-        Banese = 16
+        Banese = 16,
+        Riachuelo = 17,
+        Carnet = 18,
+        BrasilCard = 19
     }
 }
