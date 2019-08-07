@@ -44,6 +44,7 @@
         Cbss,
         Stone,
         Carrefour,
-        Epay
+        Epay,
+        Safra
     }
 }

@@ -17,7 +17,9 @@ namespace BraspagApiDotNetSdk.Contracts
 
 		public Guid? CardToken { get; set; }
 
-		public string Alias { get; set; }
+        public string Cryptogram { get; set; }
+
+        public string Alias { get; set; }
 
 		public BrandEnum Brand { get; set; }
 
