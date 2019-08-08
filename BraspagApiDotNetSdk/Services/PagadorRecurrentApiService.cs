@@ -6,6 +6,7 @@ using BraspagApiDotNetSdk.Contracts;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Deserializers;
+using RestSharp.Serialization.Json;
 
 namespace BraspagApiDotNetSdk.Services
 {
@@ -30,7 +31,7 @@ namespace BraspagApiDotNetSdk.Services
 
             restRequest.AddUrlSegment("recurrentId", recurrentId.ToString());
 
-            restRequest.AddBody(customer);
+            restRequest.AddJsonBody(customer);
 
             var response = RestClient.Execute<HttpStatusCode>(restRequest);
 
@@ -44,7 +45,7 @@ namespace BraspagApiDotNetSdk.Services
 
             restRequest.AddUrlSegment("recurrentId", recurrentId.ToString());
 
-            restRequest.AddBody(endDate);
+            restRequest.AddJsonBody(endDate);
 
             var response = RestClient.Execute<HttpStatusCode>(restRequest);
 
@@ -58,7 +59,7 @@ namespace BraspagApiDotNetSdk.Services
 
             restRequest.AddUrlSegment("recurrentId", recurrentId.ToString());
 
-            restRequest.AddBody(interval);
+            restRequest.AddJsonBody(interval);
 
             var response = RestClient.Execute<HttpStatusCode>(restRequest);
 
@@ -72,7 +73,7 @@ namespace BraspagApiDotNetSdk.Services
 
             restRequest.AddUrlSegment("recurrentId", recurrentId.ToString());
 
-            restRequest.AddBody(day);
+            restRequest.AddJsonBody(day);
 
             var response = RestClient.Execute<HttpStatusCode>(restRequest);
 
@@ -110,7 +111,7 @@ namespace BraspagApiDotNetSdk.Services
 
             restRequest.AddUrlSegment("recurrentId", recurrentId.ToString());
 
-            restRequest.AddBody(installments);
+            restRequest.AddJsonBody(installments);
 
             var response = RestClient.Execute<HttpStatusCode>(restRequest);
 
@@ -124,7 +125,7 @@ namespace BraspagApiDotNetSdk.Services
 
             restRequest.AddUrlSegment("recurrentId", recurrentId.ToString());
 
-            restRequest.AddBody(nextPaymentDate);
+            restRequest.AddJsonBody(nextPaymentDate);
 
             var response = RestClient.Execute<HttpStatusCode>(restRequest);
 
@@ -138,7 +139,7 @@ namespace BraspagApiDotNetSdk.Services
 
             restRequest.AddUrlSegment("recurrentId", recurrentId.ToString());
 
-            restRequest.AddBody(updatedPayment);
+            restRequest.AddJsonBody(updatedPayment);
 
             var response = RestClient.Execute<HttpStatusCode>(restRequest);
 
@@ -152,7 +153,7 @@ namespace BraspagApiDotNetSdk.Services
 
             restRequest.AddUrlSegment("recurrentId", recurrentId.ToString());
 
-            restRequest.AddBody(amount);
+            restRequest.AddJsonBody(amount);
 
             var response = RestClient.Execute<HttpStatusCode>(restRequest);
 
@@ -166,7 +167,7 @@ namespace BraspagApiDotNetSdk.Services
 
             restRequest.AddUrlSegment("recurrentId", recurrentId.ToString());
 
-            restRequest.AddBody(affiliation);
+            restRequest.AddJsonBody(affiliation);
 
             var response = RestClient.Execute<HttpStatusCode>(restRequest);
 

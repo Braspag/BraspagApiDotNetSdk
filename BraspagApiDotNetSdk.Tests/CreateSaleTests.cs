@@ -5,7 +5,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using RestSharp;
-using RestSharp.Serializers;
+using RestSharp.Serialization.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +19,6 @@ namespace BraspagApiDotNetSdk.Tests
         private PagadorApiService _service;
 
         private Mock<IRestClient> _mockRestClient;
-        private Sale _createOrder;
 
         [TestInitialize]
         public void TestInitialize()
@@ -53,7 +52,7 @@ namespace BraspagApiDotNetSdk.Tests
             _mockRestClient.Verify(m => m.Execute<Sale>(It.Is<RestRequest>(request => request.Resource == @"sales")), Times.Once);
 
             _mockRestClient.Verify(m => m.Execute<Sale>(It.Is<RestRequest>(request => request.Parameters.Any(
-                param => param.Type == ParameterType.RequestBody && param.Name == @"application/json"))), Times.Once);
+                param => param.Type == ParameterType.RequestBody && param.ContentType == @"application/json"))), Times.Once);
         }
 
         [TestMethod]

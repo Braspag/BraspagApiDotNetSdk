@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Deserializers;
+using RestSharp.Serialization.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -28,7 +29,7 @@ namespace BraspagApiDotNetSdk.Services
             var restRequest = new RestRequest(@"VerifyCard", Method.POST) { RequestFormat = DataFormat.Json };
             AddHeaders(restRequest, merchantAuthentication);
 
-            restRequest.AddBody(verifyCardRequest);
+            restRequest.AddJsonBody(verifyCardRequest);
             
             var response = RestClient.Execute(restRequest);
             
