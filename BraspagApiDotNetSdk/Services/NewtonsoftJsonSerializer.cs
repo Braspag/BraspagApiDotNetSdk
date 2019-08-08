@@ -6,9 +6,9 @@ namespace BraspagApiDotNetSdk.Services
 {
     public class NewtonsoftJsonSerializer : ISerializer
     {
-        private Newtonsoft.Json.JsonSerializer serializer;
+        private JsonSerializer serializer;
 
-        public NewtonsoftJsonSerializer(Newtonsoft.Json.JsonSerializer serializer)
+        public NewtonsoftJsonSerializer(JsonSerializer serializer)
         {
             this.serializer = serializer;
         }

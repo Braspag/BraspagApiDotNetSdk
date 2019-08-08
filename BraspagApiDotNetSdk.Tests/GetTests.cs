@@ -5,7 +5,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using RestSharp;
-using RestSharp.Serializers;
+using RestSharp.Serialization.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Net;
 
 namespace BraspagApiDotNetSdk.Tests
 {
-	[TestClass]
+    [TestClass]
 	public class GetTests
 	{
 		private PagadorApiService _service;

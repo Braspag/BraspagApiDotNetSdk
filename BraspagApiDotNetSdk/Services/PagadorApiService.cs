@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Deserializers;
+using RestSharp.Serialization.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -154,7 +155,7 @@ namespace BraspagApiDotNetSdk.Services
 
         private Sale PostSale(Sale sale, RestRequest restRequest)
         {
-            restRequest.AddBody(sale);
+            restRequest.AddJsonBody(sale);
 
             var response = RestClient.Execute<Sale>(restRequest);
 

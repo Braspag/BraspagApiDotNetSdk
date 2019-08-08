@@ -48,7 +48,7 @@ namespace BraspagApiDotNetSdk.Tests
             _mockRestClient.Verify(m => m.Execute(It.Is<RestRequest>(request => request.Method == Method.POST)), Times.Once);
             
             _mockRestClient.Verify(m => m.Execute(It.Is<RestRequest>(request => request.Parameters.Any(
-                param => param.Type == ParameterType.RequestBody && param.Name == @"application/json"))), Times.Once);
+                param => param.Type == ParameterType.RequestBody && param.ContentType == @"application/json"))), Times.Once);
 
             response.Should().NotBeNull();
             response.ErrorDataCollection.Should().BeNull();
@@ -74,7 +74,7 @@ namespace BraspagApiDotNetSdk.Tests
             _mockRestClient.Verify(m => m.Execute(It.Is<RestRequest>(request => request.Method == Method.POST)), Times.Once);
 
             _mockRestClient.Verify(m => m.Execute(It.Is<RestRequest>(request => request.Parameters.Any(
-                param => param.Type == ParameterType.RequestBody && param.Name == @"application/json"))), Times.Once);
+                param => param.Type == ParameterType.RequestBody && param.ContentType == @"application/json"))), Times.Once);
 
             response.Should().NotBeNull();
             response.ErrorDataCollection.Should().BeNull();
