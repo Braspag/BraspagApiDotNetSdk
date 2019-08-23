@@ -20,5 +20,7 @@
 		public string SoftDescriptor { get; set; }
 
         public string Eci { get; set; }
-	}
+
+        public string IssuerTransactionId { get; set; }
+    }
 }
