@@ -69,6 +69,7 @@
     <Compile Include="Contracts\Antifraud\TravelData.cs" />
     <Compile Include="Contracts\Antifraud\TravelLegData.cs" />
     <Compile Include="Contracts\Avs.cs" />
+    <Compile Include="Contracts\CardOnFile.cs" />
     <Compile Include="Contracts\Customer.cs" />
     <Compile Include="Contracts\Enum\AntifraudSequenceCriteriaEnum.cs" />
     <Compile Include="Contracts\Enum\AntifraudSequenceEnum.cs" />

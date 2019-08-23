@@ -24,5 +24,7 @@ namespace BraspagApiDotNetSdk.Contracts
 		public BrandEnum Brand { get; set; }
 
         public Avs Avs { get; set; }
+
+        public CardOnFile CardOnFile { get; set; }
     }
 }
