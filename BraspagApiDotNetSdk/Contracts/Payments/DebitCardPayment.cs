@@ -7,7 +7,11 @@
 			Type = "DebitCard";
 		}
 
-		public Card DebitCard { get; set; }
+        public bool? Authenticate { get; set; }
+
+        public bool Recurrent { get; set; }
+
+        public Card DebitCard { get; set; }
 
 		public string AuthenticationUrl { get; set; }
 
