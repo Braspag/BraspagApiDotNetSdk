@@ -45,6 +45,11 @@
         Stone,
         Carrefour,
         Epay,
-        Safra
+        Safra,
+        Banrisul,
+        BrasilCard,
+        PayMeeRedirectCheckout,
+        PayMeeSemiTransparent,
+        Braspag
     }
 }
