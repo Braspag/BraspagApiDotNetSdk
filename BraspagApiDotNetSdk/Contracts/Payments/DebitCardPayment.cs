@@ -26,5 +26,7 @@
         public string Eci { get; set; }
 
         public string IssuerTransactionId { get; set; }
-    }
+
+		public Wallet Wallet { get; set; }
+	}
 }
