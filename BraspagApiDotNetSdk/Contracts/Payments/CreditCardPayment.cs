@@ -39,5 +39,7 @@ namespace BraspagApiDotNetSdk.Contracts.Payments
         public ExternalAuthentication ExternalAuthentication { get; set; }
 
         public Card NewCard { get; set; }
-	}
+
+        public Wallet Wallet { get; set; }
+    }
 }

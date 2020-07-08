@@ -85,6 +85,7 @@
     <Compile Include="Contracts\Enum\InterestTypeEnum.cs" />
     <Compile Include="Contracts\Enum\RecurrencyIntervalEnum.cs" />
     <Compile Include="Contracts\Enum\ShippingMethodEnum.cs" />
+    <Compile Include="Contracts\Enum\WalletTypeEnum.cs" />
     <Compile Include="Contracts\Error.cs" />
     <Compile Include="Contracts\BaseResponse.cs" />
     <Compile Include="Contracts\ExternalAuthentication.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Contracts\VerifyCardResponse.cs" />
     <Compile Include="Contracts\VoidRequest.cs" />
     <Compile Include="Contracts\VoidResponse.cs" />
+    <Compile Include="Contracts\Wallet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IPagadorApiService.cs" />
     <Compile Include="Services\IPagadorRecurrentApiService.cs" />
